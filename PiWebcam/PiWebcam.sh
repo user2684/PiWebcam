@@ -1204,13 +1204,19 @@ function configure_network {
 	# allow only specific inbound connections
 	iptables -F
 	iptables -A INPUT -i lo -j ACCEPT
-	iptables -A INPUT -i $IFACE -p tcp -m tcp --dport 22 -j ACCEPT
-	iptables -A INPUT -i $IFACE -p tcp -m tcp --dport 80 -j ACCEPT
-	iptables -A INPUT -i $IFACE -p icmp -j ACCEPT
-	iptables -A INPUT -i $IFACE -p udp --dport 67:68 --sport 67:68 -j ACCEPT
-	iptables -A INPUT -i $IFACE -p udp --dport 5353 -j ACCEPT
-	iptables -A INPUT -i $IFACE -p udp --dport 53 -j ACCEPT
-	iptables -A INPUT -i $IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT
+  IFACE_OLD=$IFACE
+  # TODO: What if the user wants to access over VPN?
+  for IFACE in wlan0 eth0
+  do
+    iptables -A INPUT -i $IFACE -p tcp -m tcp --dport 22 -j ACCEPT
+    iptables -A INPUT -i $IFACE -p tcp -m tcp --dport 80 -j ACCEPT
+    iptables -A INPUT -i $IFACE -p icmp -j ACCEPT
+    iptables -A INPUT -i $IFACE -p udp --dport 67:68 --sport 67:68 -j ACCEPT
+    iptables -A INPUT -i $IFACE -p udp --dport 5353 -j ACCEPT
+    iptables -A INPUT -i $IFACE -p udp --dport 53 -j ACCEPT
+    iptables -A INPUT -i $IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT
+  done
+  IFACE=$IFACE_OLD
 	iptables -P INPUT DROP
 	iptables -P OUTPUT ACCEPT
 }
