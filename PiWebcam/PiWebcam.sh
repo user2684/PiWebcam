@@ -105,6 +105,7 @@ CAMERA_CONFIG="/etc/motion/motion.conf"
 CAMERA_CONFIG_DEFAULT="/etc/default/motion"
 WEB_CONFIG="/etc/lighttpd/lighttpd.conf"
 EMAIL_CONFIG="/etc/ssmtp/ssmtp.conf"
+EMAIL_CONFIG_REVALIASES="/etc/ssmtp/revaliases"
 PI_CMDLINE="/boot/cmdline.txt"
 PI_CONFIG="/boot/config.txt"
 STARTUP_FILE="/etc/rc.local"
@@ -1291,6 +1292,7 @@ function configure_notifications {
 	echo "FromLineOverride=YES" >> $EMAIL_CONFIG
 	if [[ -n "$EMAIL_USERNAME" ]]; then
 		echo "AuthUser=$EMAIL_USERNAME" >> $EMAIL_CONFIG
+                echo "root:${EMAIL_SERVER}:${EMAIL_SERVER}" >> $EMAIL_CONFIG_REVALIASES
 	fi
 	if [[ -n "$EMAIL_PASSWORD" ]]; then
 		echo "AuthPass=$EMAIL_PASSWORD" >> $EMAIL_CONFIG
