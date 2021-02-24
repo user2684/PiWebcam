@@ -1292,7 +1292,7 @@ function configure_notifications {
 	echo "FromLineOverride=YES" >> $EMAIL_CONFIG
 	if [[ -n "$EMAIL_USERNAME" ]]; then
 		echo "AuthUser=$EMAIL_USERNAME" >> $EMAIL_CONFIG
-                echo "root:${EMAIL_SERVER}:${EMAIL_SERVER}" >> $EMAIL_CONFIG_REVALIASES
+                echo "root:${EMAIL_USERNAME}:${EMAIL_SERVER}" >> $EMAIL_CONFIG_REVALIASES
 	fi
 	if [[ -n "$EMAIL_PASSWORD" ]]; then
 		echo "AuthPass=$EMAIL_PASSWORD" >> $EMAIL_CONFIG
